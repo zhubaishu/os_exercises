@@ -8,18 +8,18 @@
 - [x]  
 
 >  http://www.imada.sdu.dk/Courses/DM18/Litteratur/IntelnATT.htm
-   能
+   如 cli、cld、inb等。
 
 虽然学过计算机原理和x86汇编（根据THU-CS的课程设置），但对ucore中涉及的哪些硬件设计或功能细节不够了解？
 - [x]  
 
->   是的
+>   中断寄存器和非通用寄存器等。
 
 
 哪些困难（请分优先级）会阻碍你自主完成lab实验？
 - [x]  
 
->   没有困难
+>   课程略难。
 
 如何把一个在gdb中或执行过程中出现的物理/线性地址与你写的代码源码位置对应起来？
 - [x]  
@@ -34,7 +34,7 @@
 你希望从lab中学到什么知识？
 - [x]  
 
->   
+>   深入理解操作系统原理 学习操作系统中到关键概念
 
 ---
 
@@ -104,13 +104,7 @@ SETGATE(intr, 0,1,2,3);
 请分析 [list.h](https://github.com/chyyuu/ucore_lab/blob/master/labcodes/lab2/libs/list.h)内容中大致的含义，并能include这个文件，利用其结构和功能编写一个数据结构链表操作的小C程序
 - [x]  
 
-> #include "list.h"
-
-void main() {
-    list_entry_t *head = new list_entry_t;
-    list_init(head);
-    list_add(head, list_init(new list_entry_t));
-}
+> 
 
 ---
 
