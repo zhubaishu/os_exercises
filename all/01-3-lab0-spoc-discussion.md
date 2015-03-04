@@ -19,17 +19,17 @@
 哪些困难（请分优先级）会阻碍你自主完成lab实验？
 - [x]  
 
->   
+>   没有困难
 
 如何把一个在gdb中或执行过程中出现的物理/线性地址与你写的代码源码位置对应起来？
 - [x]  
 
->   
+>   通过break加行号得到物理地址，list加\*物理地址得到行号。
 
 了解函数调用栈对lab实验有何帮助？
 - [x]  
 
->   
+>   更好的编写汇编代码。
 
 你希望从lab中学到什么知识？
 - [x]  
@@ -45,17 +45,17 @@
 搭建好实验环境，请描述碰到的困难和解决的过程。
 - [x]  
 
-> 
+> 搭建好了。
 
 熟悉基本的git命令行操作命令，从github上的[ucore git repo](http://www.github.com/chyyuu/ucore_lab)下载ucore lab实验
 - [x]  
 
-> 
+> 基本熟悉了。
 
 尝试用qemu+gdb（or ECLIPSE-CDT）调试lab1
 - [x]  
 
-> 
+> 还没有调试。
 
 对于如下的代码段，请说明”：“后面的数字是什么含义
 ```
@@ -74,7 +74,7 @@ struct gatedesc {
 ```
 - [x]  
 
-> 
+> 位域
 
 对于如下的代码段，
 ```
@@ -99,7 +99,7 @@ SETGATE(intr, 0,1,2,3);
 请问执行上述指令后， intr的值是多少？
 - [x]  
 
-> 
+> 0x10002
 
 请分析 [list.h](https://github.com/chyyuu/ucore_lab/blob/master/labcodes/lab2/libs/list.h)内容中大致的含义，并能include这个文件，利用其结构和功能编写一个数据结构链表操作的小C程序
 - [x]  
