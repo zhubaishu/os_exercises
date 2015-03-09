@@ -4,20 +4,15 @@
 
 ## 3.1 BIOS
  1. 比较UEFI和BIOS的区别。
-  	UEFI:Unified Extensible Firmware Interface
- 	 BIOS:Basic Input/Output System
- 	 UEFI是BIOS的继任者，是为了解决BIOS的众多缺点在90年代提出的一种新的方案，特点是，1，相对于BIOS固定的(如针对不同的结构的磁盘需    要BIOS_MBT,GBR等)，UEFI为不同平台上提供统一的服务;2,比BIOS安全，可以抵御bootkit攻击;3，启动快。
+ 	 UEFI是BIOS的继任者，是为了解决BIOS的众多缺点在90年代提出的一种新的方案。特点是，相对于BIOS固定的(如针对不同的结构的磁盘需要BIOS_MBT,GBR等)，UEFI为不同平台上提供统一的服务;比BIOS安全，可以抵御bootkit攻击;启动快。
  1. 描述PXE的大致启动流程。
-   1,客户端个人电脑开机后， 在 TCP/IP Bootrom 获得控制权之前先做自我测试。
-  	2,Bootprom 送出 BOOTP/DHCP 要求以取得 IP。
-  	3,如果服务器收到个人电脑所送出的要求， 就会送回 BOOTP/DHCP 回应，内容包括
-  	4,客户端的 IP 地址， 预设网关， 及开机映像文件。否则，服务器会忽略这个要求。
-  	5,Bootprom 由 TFTP 通讯协议从服务器下载开机映像文件。
-  	6,个人电脑通过这个开机映像文件开机， 这个开机文件可以只是单纯的开机程式也可
-  	以是操作系统。
-  	7,开机映像文件将包含 kernel loader 及压缩过的 kernel，此 kernel 将支持NTFS root
-  	系统。
-  	8,远程客户端根据下载的文件启动机器。
+   	1.客户端个人电脑开机后,在TCP/IP Bootrom 获得控制权之前先做自我测试。
+  	2.Bootprom 送出BOOTP/DHCP要求以取得IP。
+  	3.如果服务器收到个人电脑所送出的要求,就会送回BOOTP/DHCP回应,内容包括客户端的IP地址,预设网关,及开机映像文件。否则，服务器会忽略这个要求。
+  	4.Bootprom由TFTP通讯协议从服务器下载开机映像文件。
+  	5.个人电脑通过这个开机映像文件开机,这个开机文件可以只是单纯的开机程式也可以是操作系统。
+  	6.开机映像文件将包含kernel loader及压缩过的kernel,此kernel将支持NTFS root系统。
+  	7.远程客户端根据下载的文件启动机器。
 
 
 ## 3.2 系统启动流程
