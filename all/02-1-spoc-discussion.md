@@ -15,7 +15,51 @@
 ## 3.3 中断、异常和系统调用比较
  1. 举例说明Linux中有哪些中断，哪些异常？
  1. Linux的系统调用有哪些？大致的功能分类有哪些？  (w2l1)
-
+ 一、进程控制：
+     fork	创建一个新进程
+     clone	按指定条件创建子进程
+     execve	运行可执行文件
+     exit	中止进程
+     _exit	立即中止当前进程
+ 二、文件系统控制
+     open	打开文件
+     creat	创建新文件
+     close	关闭文件描述字
+     read	读文件
+     write	写文件
+     readv	从文件读入数据到缓冲数组中
+     writev	将缓冲数组里的数据写入文件
+三、系统控制
+     ioctl	I/O总控制函数
+     _sysctl	读/写系统参数
+     acct	启用或禁止进程记账
+     getrlimit	获取系统资源上限
+四、内存管理
+    brk	改变数据段空间的分配
+    sbrk	参见brk
+    mlock	内存页面加锁
+    munlock	内存页面解锁
+五、网络管理
+    getdomainname	取域名
+    setdomainname	设置域名
+    gethostid	获取主机标识号
+    sethostid	设置主机标识号
+六、socket控制
+    socket	建立socket
+    bind	绑定socket到端口
+    connect	连接远程主机
+    accept	响应socket连接请求
+    send	通过socket发送信息
+七、用户管理
+    getuid	获取用户标识号
+    setuid	设置用户标志号
+    getgid	获取组标识号
+    setgid	设置组标志号
+八、进程间通信
+    sigaction	设置对指定信号的处理方法
+    sigprocmask	根据参数对信号集中的信号执行阻塞/解除阻塞等操作
+    sigpending	为指定的被阻塞信号设置队列
+    sigsuspend	挂起进程等待特定信号
 ```
   + 采分点：说明了Linux的大致数量（上百个），说明了Linux系统调用的主要分类（文件操作，进程管理，内存管理等）
   - 答案没有涉及上述两个要点；（0分）
