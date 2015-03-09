@@ -18,19 +18,18 @@
 ## 3.2 系统启动流程
  1. 了解NTLDR的启动流程。
      NTLDR文件的是一个隐藏的，只读的系统文件，位置在系统盘的根目录，用来装载操作系统。
-     一般情况系统的引导过程是这样的代码
-     1、电源自检程序开始运行
-     2、主引导记录被装入内存，并且程序开始执行
-     3、活动分区的引导扇区被装入内存
-     4、NTLDR从引导扇区被装入并初始化
-     5、将处理器的实模式改为32位平滑内存模式
-     6、NTLDR开始运行适当的小文件系统驱动程序。
-     小文件系统驱动程序是建立在NTLDR内部的，它能读FAT或NTFS。
-     7、NTLDR读boot.ini文件
-     8、NTLDR装载所选操作系统
-     如果windows NT/windows 2000/windows XP/windows server 2003这些操作系统被选择，NTLDR运行Ntdetect。
-     对于其他的操作系统，NTLDR装载并运行Bootsect.dos然后向它传递控制。
-     windows NT过程结束。
+     一般情况系统的引导过程是这样:
+     1.电源自检程序开始运行
+     2.主引导记录被装入内存，并且程序开始执行
+     3.活动分区的引导扇区被装入内存
+     4.NTLDR从引导扇区被装入并初始化
+     5.将处理器的实模式改为32位平滑内存模式
+     6.NTLDR开始运行适当的小文件系统驱动程序。小文件系统驱动程序是建立在NTLDR内部的，它能读FAT或NTFS。
+     7.NTLDR读boot.ini文件
+     8.NTLDR装载所选操作系统
+     	如果windows NT/windows 2000/windows XP/windows server 2003这些操作系统被选择，NTLDR运行Ntdetect。
+     	对于其他的操作系统，NTLDR装载并运行Bootsect.dos然后向它传递控制。
+     	windows NT过程结束。
      9.Ntdetect搜索计算机硬件并将列表传送给NTLDR，以便将这些信息写进\\HKE Y_LOCAL_MACHINE\HARDWARE中。
      10.然后NTLDR装载Ntoskrnl.exe，Hal.dll和系统信息集合。
      11.Ntldr搜索系统信息集合，并装载设备驱动配置以便设备在启动时开始工作
@@ -99,6 +98,37 @@
  ```
  
  1. 以ucore lab8的answer为例，uCore的系统调用有哪些？大致的功能分类有哪些？(w2l1)
+ 答： ucore 中系统调用有22个
+	
+	进程控制：	
+    			exit
+    			fork
+    			getpid
+    			exec
+    			wait
+				yield
+    			kill
+				sleep
+
+	文件操作：
+				open
+    			close
+    			read
+    			write
+    			seek
+    			fstat
+    			fsync
+				putc
+				pgdir
+				getcwd
+				getdirentry
+				dup
+
+	系统控制：
+				gettime
+				lab6_set_priority
+
+	除此之外，ucore还可以增加网络管理&socket有关的系统调用，如gethostid, connect, send, accept等等，以增加网络功能。
  
  ```
   + 采分点：说明了ucore的大致数量（二十几个），说明了ucore系统调用的主要分类（文件操作，进程管理，内存管理等）
