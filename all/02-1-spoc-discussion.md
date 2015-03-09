@@ -80,7 +80,21 @@
  
 ## 3.4 linux系统调用分析
  1. 通过分析[lab1_ex0](https://github.com/chyyuu/ucore_lab/blob/master/related_info/lab1/lab1-ex0.md)了解Linux应用的系统调用编写和含义。(w2l1)
- 
+ objdump：objdump命令是Linux下的反汇编目标文件或者可执行文件的命令，可以以一种可阅读的格式让用户更多地了解二进制文件可能带有的  附加信息。
+     4003b3:	48 85 c0             	test   %rax,%rax
+     4003b6:	74 05                	je     4003bd <_init+0x15>
+     4003b8:	e8 33 00 00 00       	callq  4003f0 <__gmon_start__@plt>
+     4003bd:	48 83 c4 08          	add    $0x8,%rsp
+ nm：用来列出目标文件的符号清单。
+     0000000000000006 a SYS_close
+     000000000000003f a SYS_dup2
+     000000000000000b a SYS_execve
+     0000000000000001 a SYS_exit
+     0000000000000002 a SYS_fork
+ file：file是检测文件类型的命令，即文件组织的方式，通常不同的文件类型执行不同的标准。 
+
+系统调用的编写和含义：
+“int	$0x80”是在进行系统调用，应用int指令触发软中断。SYS_write表示调用的功能号，STDOUT代表文件描述符，hello代表buffer的地址，12代表buffer的大小。这些参数被寄存器保存并在进行系统调用时应用。
 
  ```
   + 采分点：说明了objdump，nm，file的大致用途，说明了系统调用的具体含义
