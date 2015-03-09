@@ -154,20 +154,7 @@
 
 系统调用的编写和含义：
 “int	$0x80”是在进行系统调用，应用int指令触发软中断。SYS_write表示调用的功能号，STDOUT代表文件描述符，hello代表buffer的地址，12代表buffer的大小。这些参数被寄存器(%eax,%ebx,%ecx,%edx)保存并在进行系统调用时应用。并且返回值保存在%eax中。
-代码解释：
-		.include "defines.h"          // defines.h 中包含各个中断号
-		.data	 					  // 数据段声明
-		hello:
-			.string "hello world\n"	  // hello为要输出的字符串
 
-		.globl	main	   			  
-		main:
-			movl	$SYS_write,%eax	  
-			movl	$STDOUT,%ebx	 
-			movl	$hello,%ecx		  
-			movl	$12,%edx		  
-			int	$0x80		//  系统调用
-			ret
 
  ```
   + 采分点：说明了objdump，nm，file的大致用途，说明了系统调用的具体含义
