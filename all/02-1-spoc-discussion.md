@@ -4,13 +4,48 @@
 
 ## 3.1 BIOS
  1. 比较UEFI和BIOS的区别。
+  	UEFI:Unified Extensible Firmware Interface
+ 	 BIOS:Basic Input/Output System
+ 	 UEFI是BIOS的继任者，是为了解决BIOS的众多缺点在90年代提出的一种新的方案，特点是，1，相对于BIOS固定的(如针对不同的结构的磁盘需    要BIOS_MBT,GBR等)，UEFI为不同平台上提供统一的服务;2,比BIOS安全，可以抵御bootkit攻击;3，启动快。
  1. 描述PXE的大致启动流程。
+   1,客户端个人电脑开机后， 在 TCP/IP Bootrom 获得控制权之前先做自我测试。
+  	2,Bootprom 送出 BOOTP/DHCP 要求以取得 IP。
+  	3,如果服务器收到个人电脑所送出的要求， 就会送回 BOOTP/DHCP 回应，内容包括
+  	4,客户端的 IP 地址， 预设网关， 及开机映像文件。否则，服务器会忽略这个要求。
+  	5,Bootprom 由 TFTP 通讯协议从服务器下载开机映像文件。
+  	6,个人电脑通过这个开机映像文件开机， 这个开机文件可以只是单纯的开机程式也可
+  	以是操作系统。
+  	7,开机映像文件将包含 kernel loader 及压缩过的 kernel，此 kernel 将支持NTFS root
+  	系统。
+  	8,远程客户端根据下载的文件启动机器。
+
 
 ## 3.2 系统启动流程
  1. 了解NTLDR的启动流程。
+     NTLDR文件的是一个隐藏的，只读的系统文件，位置在系统盘的根目录，用来装载操作系统。
+     一般情况系统的引导过程是这样的代码
+     1、电源自检程序开始运行
+     2、主引导记录被装入内存，并且程序开始执行
+     3、活动分区的引导扇区被装入内存
+     4、NTLDR从引导扇区被装入并初始化
+     5、将处理器的实模式改为32位平滑内存模式
+     6、NTLDR开始运行适当的小文件系统驱动程序。
+     小文件系统驱动程序是建立在NTLDR内部的，它能读FAT或NTFS。
+     7、NTLDR读boot.ini文件
+     8、NTLDR装载所选操作系统
+     如果windows NT/windows 2000/windows XP/windows server 2003这些操作系统被选择，NTLDR运行Ntdetect。
+     对于其他的操作系统，NTLDR装载并运行Bootsect.dos然后向它传递控制。
+     windows NT过程结束。
+     9.Ntdetect搜索计算机硬件并将列表传送给NTLDR，以便将这些信息写进\\HKE Y_LOCAL_MACHINE\HARDWARE中。
+     10.然后NTLDR装载Ntoskrnl.exe，Hal.dll和系统信息集合。
+     11.Ntldr搜索系统信息集合，并装载设备驱动配置以便设备在启动时开始工作
+     12.Ntldr把控制权交给Ntoskrnl.exe，这时,启动程序结束,装载阶段开始
  1. 了解GRUB的启动流程。
+     硬盘启动以后转向MBR，装载GRUB。GRUB再将控制权给实际操作系统。
  1. 比较NTLDR和GRUB的功能有差异。
+     NTLDR功能单一，不能启动其他系统；NTLDR的MBR仅仅是指向操作系统所在的分区中的扇区。
  1. 了解u-boot的功能。
+     Universal Boot Loader，可以充当bootloader也可以通过特殊手段从PC机中下载到目标板中（下载模式）。
 
 ## 3.3 中断、异常和系统调用比较
  1. 举例说明Linux中有哪些中断，哪些异常？
@@ -106,6 +141,13 @@
  ```
  
  1. 通过调试[lab1_ex1](https://github.com/chyyuu/ucore_lab/blob/master/related_info/lab1/lab1-ex1.md)了解Linux应用的系统调用执行过程。(w2l1)
+ strace：用来跟踪进程执行时的系统调用和所接收的信号，可以跟踪到一个进程产生的系统调用,包括参数，返回值，执行消耗的时间。
+ 1.调用mmap映射虚拟内存页
+ 2.调用mprotect设置内存映像保护
+ 3.调用write写文件
+ 4.调用munmap去除内存页映射
+ 5.调用access确定文件的可存取性
+。。。
  
 
  ```
