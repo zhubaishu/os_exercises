@@ -45,50 +45,50 @@
  1. 举例说明Linux中有哪些中断，哪些异常？
  1. Linux的系统调用有哪些？大致的功能分类有哪些？  (w2l1)
  一、进程控制：
-     fork	创建一个新进程
-     clone	按指定条件创建子进程
-     execve	运行可执行文件
-     exit	中止进程
-     _exit	立即中止当前进程
+	     fork	创建一个新进程
+	     clone	按指定条件创建子进程
+	     execve	运行可执行文件
+	     exit	中止进程
+	     _exit	立即中止当前进程
  二、文件系统控制
-     open	打开文件
-     creat	创建新文件
-     close	关闭文件描述字
-     read	读文件
-     write	写文件
-     readv	从文件读入数据到缓冲数组中
-     writev	将缓冲数组里的数据写入文件
+	     open	打开文件
+	     creat	创建新文件
+	     close	关闭文件描述字
+	     read	读文件
+	     write	写文件
+	     readv	从文件读入数据到缓冲数组中
+	     writev	将缓冲数组里的数据写入文件
 三、系统控制
-     ioctl	I/O总控制函数
-     _sysctl	读/写系统参数
-     acct	启用或禁止进程记账
-     getrlimit	获取系统资源上限
+	     ioctl	I/O总控制函数
+	     _sysctl	读/写系统参数
+	     acct	启用或禁止进程记账
+	     getrlimit	获取系统资源上限
 四、内存管理
-    brk	改变数据段空间的分配
-    sbrk	参见brk
-    mlock	内存页面加锁
-    munlock	内存页面解锁
+	    brk	改变数据段空间的分配
+	    sbrk	参见brk
+	    mlock	内存页面加锁
+	    munlock	内存页面解锁
 五、网络管理
-    getdomainname	取域名
-    setdomainname	设置域名
-    gethostid	获取主机标识号
-    sethostid	设置主机标识号
+	    getdomainname	取域名
+	    setdomainname	设置域名
+	    gethostid	获取主机标识号
+	    sethostid	设置主机标识号
 六、socket控制
-    socket	建立socket
-    bind	绑定socket到端口
-    connect	连接远程主机
-    accept	响应socket连接请求
-    send	通过socket发送信息
+	    socket	建立socket
+	    bind	绑定socket到端口
+	    connect	连接远程主机
+	    accept	响应socket连接请求
+	    send	通过socket发送信息
 七、用户管理
-    getuid	获取用户标识号
-    setuid	设置用户标志号
-    getgid	获取组标识号
-    setgid	设置组标志号
+	    getuid	获取用户标识号
+	    setuid	设置用户标志号
+	    getgid	获取组标识号
+	    setgid	设置组标志号
 八、进程间通信
-    sigaction	设置对指定信号的处理方法
-    sigprocmask	根据参数对信号集中的信号执行阻塞/解除阻塞等操作
-    sigpending	为指定的被阻塞信号设置队列
-    sigsuspend	挂起进程等待特定信号
+	    sigaction	设置对指定信号的处理方法
+	    sigprocmask	根据参数对信号集中的信号执行阻塞/解除阻塞等操作
+	    sigpending	为指定的被阻塞信号设置队列
+	    sigsuspend	挂起进程等待特定信号
 ```
   + 采分点：说明了Linux的大致数量（上百个），说明了Linux系统调用的主要分类（文件操作，进程管理，内存管理等）
   - 答案没有涉及上述两个要点；（0分）
@@ -128,7 +128,6 @@
 				gettime
 				lab6_set_priority
 
-	除此之外，ucore还可以增加网络管理&socket有关的系统调用，如gethostid, connect, send, accept等等，以增加网络功能。
  
  ```
   + 采分点：说明了ucore的大致数量（二十几个），说明了ucore系统调用的主要分类（文件操作，进程管理，内存管理等）
@@ -154,7 +153,21 @@
  file：file是检测文件类型的命令，即文件组织的方式，通常不同的文件类型执行不同的标准。 
 
 系统调用的编写和含义：
-“int	$0x80”是在进行系统调用，应用int指令触发软中断。SYS_write表示调用的功能号，STDOUT代表文件描述符，hello代表buffer的地址，12代表buffer的大小。这些参数被寄存器保存并在进行系统调用时应用。
+“int	$0x80”是在进行系统调用，应用int指令触发软中断。SYS_write表示调用的功能号，STDOUT代表文件描述符，hello代表buffer的地址，12代表buffer的大小。这些参数被寄存器(%eax,%ebx,%ecx,%edx)保存并在进行系统调用时应用。并且返回值保存在%eax中。
+代码解释：
+		.include "defines.h"          // defines.h 中包含各个中断号
+		.data	 					  // 数据段声明
+		hello:
+			.string "hello world\n"	  // hello为要输出的字符串
+
+		.globl	main	   			  
+		main:
+			movl	$SYS_write,%eax	  
+			movl	$STDOUT,%ebx	 
+			movl	$hello,%ecx		  
+			movl	$12,%edx		  
+			int	$0x80		//  系统调用
+			ret
 
  ```
   + 采分点：说明了objdump，nm，file的大致用途，说明了系统调用的具体含义
@@ -167,12 +180,13 @@
  
  1. 通过调试[lab1_ex1](https://github.com/chyyuu/ucore_lab/blob/master/related_info/lab1/lab1-ex1.md)了解Linux应用的系统调用执行过程。(w2l1)
  strace：用来跟踪进程执行时的系统调用和所接收的信号，可以跟踪到一个进程产生的系统调用,包括参数，返回值，执行消耗的时间。
- 1.调用mmap映射虚拟内存页
- 2.调用mprotect设置内存映像保护
- 3.调用write写文件
- 4.调用munmap去除内存页映射
- 5.调用access确定文件的可存取性
-。。。
+系统调用的具体执行过程 ：
+	用户程序调用C库API（C库中封装有 INT 0x80 软中断指令）
+	若该C库API需要进行系统调用，则会使用INT 0x80软中断指令
+	INT 0x80 这条指令的执行会让系统跳转到一个预设的内核空间地址，即system_call函数
+	system_call 根据具体的系统调用号，查找系统调用表，转到执行具体的系统调用服务例程
+	CPU执行该系统服务例程
+	当系统调用完成后，把控制权交回到发起调用的用户进程前
  
 
  ```
