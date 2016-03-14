@@ -15,6 +15,6 @@ int main() {
     unsigned int pte_ctx = pa & ~0x3FF | 0x3;
     printf("va 0x%08x, pa 0x%08x, pde_idx 0x%08x, pde_ctx 0x%08x, pte_idx 0x%08x, pte_ctx 0x%08x\n", 
     va, pa, pde_idx, pde_ctx, pte_idx, pte_ctx);
-    stdin.close();
+    fclose(stdin);
     return 0;
 }
